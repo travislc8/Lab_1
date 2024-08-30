@@ -7,14 +7,62 @@ public class Purse {
         this.fillCashMap();
 
     }
+
     private Map<Denomination, Integer> cash;
 
-    public void add(Denomination type, int num) {
-        cash.put(type,num);
+    public void add(Denomination denomination, int num) {
+        int count = cash.get(denomination);
+
+        // adds the requested amount to the purse
+        count += num;
+        cash.put(denomination, count);
     }
 
-    public void remove(Denomination type, int num) {
-        cash.remove(type,num);
+    public void add(MoneyType type, int num) {
+        // gets the amount in the purse of the denomination
+        var denomination = Denomination.NewInstance(type);
+        int count = cash.get(denomination);
+
+        // adds the requested amount to the purse
+        count += num;
+        cash.put(denomination, count);
+    }
+
+    public double remove(Denomination denomination, int num) {
+        int count = cash.get(denomination);
+
+        // if the remove request is greater than the amount in purse, set to
+        // the amount in the purse
+        if (count < num) {
+            num = count;
+        }
+        double value = num * denomination.amount(); // value removed
+        boolean check = cash.remove(denomination, num); // removes from map
+
+        // returns value removed if removal was successfull
+        if (check)
+            return value;
+        else
+            return 0;
+    }
+
+    public double remove(MoneyType type, int num) {
+        var denomination = Denomination.NewInstance(type);
+        int count = cash.get(denomination);
+
+        // if the remove request is greater than the amount in purse, set to
+        // the amount in the purse
+        if (count < num) {
+            num = count;
+        }
+        double value = num * denomination.amount(); // value removed
+        boolean check = cash.remove(denomination, num); // removes from map
+
+        // returns value removed if removal was successfull
+        if (check)
+            return value;
+        else
+            return 0;
     }
 
     public double getValue() {
@@ -32,49 +80,37 @@ public class Purse {
     }
 
     private void fillCashMap() {
-        String rootAddress = "";
-        var temp_denomination = new Denomination("Penney", .01, Denomination.Form.Coin, (rootAddress + "penny.png"));
-        cash.put(temp_denomination,0);
-        temp_denomination = new Denomination("Nickel", .05, Denomination.Form.Coin, (rootAddress + "nickel.png"));
-        cash.put(temp_denomination,0);
-        temp_denomination = new Denomination("Dime", .10, Denomination.Form.Coin, (rootAddress + "dime.png"));
-        cash.put(temp_denomination,0);
-        temp_denomination = new Denomination("Quarter", .25, Denomination.Form.Coin, (rootAddress + "quarter.png"));
-        cash.put(temp_denomination,0);
-        temp_denomination = new Denomination("One Dollar Bill", 1.0, Denomination.Form.Bill, (rootAddress + "1_dollar.png"));
-        cash.put(temp_denomination,0);
-        temp_denomination = new Denomination("Five Dollar Bill", 5.0, Denomination.Form.Bill, (rootAddress + "5_dollar.png"));
-        cash.put(temp_denomination,0);
-        temp_denomination = new Denomination("Ten Dollar Bill", 10.0, Denomination.Form.Bill, (rootAddress + "10_dollar.png"));
-        cash.put(temp_denomination,0);
-        temp_denomination = new Denomination("Fifty Dollar Bill", 50.0, Denomination.Form.Bill, (rootAddress + "50_dollar.png"));
-        cash.put(temp_denomination,0);
-        temp_denomination = new Denomination("One-Hundred Dollar Bill", 100.0, Denomination.Form.Bill, (rootAddress + "100_dollar.png"));
-        cash.put(temp_denomination,0);
+        cash.put(Denomination.NewInstance(MoneyType.Penny), 0);
+        cash.put(Denomination.NewInstance(MoneyType.Nickel), 0);
+        cash.put(Denomination.NewInstance(MoneyType.Dime), 0);
+        cash.put(Denomination.NewInstance(MoneyType.Quarter), 0);
+        cash.put(Denomination.NewInstance(MoneyType.OneDollar), 0);
+        cash.put(Denomination.NewInstance(MoneyType.FiveDollar), 0);
+        cash.put(Denomination.NewInstance(MoneyType.TenDollar), 0);
+        cash.put(Denomination.NewInstance(MoneyType.FiftyDollar), 0);
+        cash.put(Denomination.NewInstance(MoneyType.OneHundredDollar), 0);
     }
 
     public static void main(String[] args) {
         var purse = new Purse();
-        String rootAddress = "";
-        var temp_denomination = new Denomination("Penney", .01, Denomination.Form.Coin, (rootAddress + "penny.png"));
-        purse.cash.put(temp_denomination,1);
-        temp_denomination = new Denomination("Nickel", .05, Denomination.Form.Coin, (rootAddress + "nickel.png"));
-        purse.cash.put(temp_denomination,1);
-        temp_denomination = new Denomination("Dime", .10, Denomination.Form.Coin, (rootAddress + "dime.png"));
-        purse.cash.put(temp_denomination,1);
-        temp_denomination = new Denomination("Quarter", .25, Denomination.Form.Coin, (rootAddress + "quarter.png"));
-        purse.cash.put(temp_denomination,1);
-        temp_denomination = new Denomination("One Dollar Bill", 1.0, Denomination.Form.Bill, (rootAddress + "1_dollar.png"));
-        purse.cash.put(temp_denomination,1);
-        temp_denomination = new Denomination("Five Dollar Bill", 5.0, Denomination.Form.Bill, (rootAddress + "5_dollar.png"));
-        purse.cash.put(temp_denomination,1);
-        temp_denomination = new Denomination("Ten Dollar Bill", 10.0, Denomination.Form.Bill, (rootAddress + "10_dollar.png"));
-        purse.cash.put(temp_denomination,1);
-        temp_denomination = new Denomination("Fifty Dollar Bill", 50.0, Denomination.Form.Bill, (rootAddress + "50_dollar.png"));
-        purse.cash.put(temp_denomination,1);
-        temp_denomination = new Denomination("One-Hundred Dollar Bill", 100.0, Denomination.Form.Bill, (rootAddress + "100_dollar.png"));
-        purse.cash.put(temp_denomination,1);
-        System.out.println("166.41 = " + purse.getValue());
+
+        purse.add(MoneyType.Penny, 1);
+        purse.add(MoneyType.Nickel, 1);
+        purse.add(MoneyType.Dime, 1);
+        purse.add(MoneyType.Quarter, 1);
+        purse.add(MoneyType.OneDollar, 1);
+        purse.add(MoneyType.FiveDollar, 1);
+        purse.add(MoneyType.TenDollar, 1);
+        purse.add(MoneyType.FiftyDollar, 1);
+        purse.add(MoneyType.OneHundredDollar, 1);
+
+        System.out.printf("166.41 = %.2f\n", purse.getValue());
+
+        System.out.println("Removing one penny, Value removed = " + purse.remove(MoneyType.Penny, 1));
+        System.out.printf("New Value %.2f \n", purse.getValue());
+
+        purse.add(MoneyType.OneHundredDollar, 1);
+        System.out.printf("266.40 = %.2f \n", purse.getValue());
 
     }
 }
