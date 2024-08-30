@@ -70,6 +70,11 @@ public record Denomination(MoneyType name,
         }
     }
 
+    /**
+     * Implematation for compare for Comparable interface
+     *
+     * @param other Denomination to compare to
+     */
     public int compareTo(Denomination other) {
         if (this.name.compareTo(other.name) != 0)
             return this.name.compareTo(other.name);
@@ -82,6 +87,11 @@ public record Denomination(MoneyType name,
 
         return 0;
     }
+
+    /**
+     * Enumeration for the form of the denomination
+     *
+     */
     public enum Form {
         Bill, Coin
     }

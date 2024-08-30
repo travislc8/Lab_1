@@ -1,6 +1,9 @@
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Class to hold a set of denominations that can be added and removed from
+ */
 public class Purse {
     public Purse() {
         cash = new TreeMap<>();
@@ -10,6 +13,13 @@ public class Purse {
 
     private Map<Denomination, Integer> cash;
 
+    /**
+     * Adds Specified number of a denomination to the purse
+     *
+     * @param denomination A Denomination object that specifies the desired
+     *                     Denomination to add too
+     * @param num          The number of the Denomination to add to the purse
+     */
     public void add(Denomination denomination, int num) {
         int count = cash.get(denomination);
 
@@ -18,6 +28,12 @@ public class Purse {
         cash.put(denomination, count);
     }
 
+    /**
+     * Adds Specified number of a denomination to the purse
+     *
+     * @param type The MoneyType that will be added to the purse
+     * @param num  The number of the Denomination to add to the purse
+     */
     public void add(MoneyType type, int num) {
         // gets the amount in the purse of the denomination
         var denomination = Denomination.NewInstance(type);
@@ -28,6 +44,13 @@ public class Purse {
         cash.put(denomination, count);
     }
 
+    /**
+     * Removes the specified number of a denomination from the purse
+     *
+     * @param denomination A Denomination object that specifies the desired
+     *                     Denomination to remove
+     * @param num          The number of the Denomination to remove from the purse
+     */
     public double remove(Denomination denomination, int num) {
         int count = cash.get(denomination);
 
@@ -46,6 +69,12 @@ public class Purse {
             return 0;
     }
 
+    /**
+     * Removes the specified number of a denomination from the purse
+     *
+     * @param type The MoneyType that will be removed from the purse
+     * @param num  The number of the Denomination to remove from the purse
+     */
     public double remove(MoneyType type, int num) {
         var denomination = Denomination.NewInstance(type);
         int count = cash.get(denomination);
@@ -65,6 +94,11 @@ public class Purse {
             return 0;
     }
 
+    /**
+     * Gets the total value in the purse
+     *
+     * @return value in the purse
+     */
     public double getValue() {
         double value = 0;
         for (Map.Entry<Denomination, Integer> type : cash.entrySet()) {
@@ -73,12 +107,77 @@ public class Purse {
         return value;
     }
 
+    /**
+     * Gets a string representing the contents of the purse
+     *
+     */
     public String toString() {
         String result = "";
+        // checks if purse is empty
+        if (this.getValue() <= 0)
+            return "Empty Purse";
+
+        result += "Value in the purse:\n";
+        int denominationCount = cash.get(Denomination.NewInstance(MoneyType.OneHundredDollar));
+        if (denominationCount > 1)
+            result += denominationCount + " One Hundred Dollar Bills\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " One Hundred Dollar Bill\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.FiftyDollar));
+        if (denominationCount > 1)
+            result += denominationCount + " Fifty Dollar Bills\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " Fifty Dollar Bill\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.TenDollar));
+        if (denominationCount > 1)
+            result += denominationCount + " Ten Dollar Bills\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " Ten Dollar Bill\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.FiveDollar));
+        if (denominationCount > 1)
+            result += denominationCount + " Five Dollar Bills\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " Five Dollar Bill\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.OneDollar));
+        if (denominationCount > 1)
+            result += denominationCount + " One Dollar Bills\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " One Dollar Bill\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.Quarter));
+        if (denominationCount > 1)
+            result += denominationCount + " Quarters\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " Quarter\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.Dime));
+        if (denominationCount > 1)
+            result += denominationCount + " Dimes\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " Dime\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.Nickel));
+        if (denominationCount > 1)
+            result += denominationCount + " Nickels\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " Nickel\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.Penny));
+        if (denominationCount > 1)
+            result += denominationCount + " Pennies\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " Penny\n";
 
         return result;
     }
 
+    /**
+     * Fills the cash map with denominations with values of 0
+     */
     private void fillCashMap() {
         cash.put(Denomination.NewInstance(MoneyType.Penny), 0);
         cash.put(Denomination.NewInstance(MoneyType.Nickel), 0);
@@ -91,6 +190,9 @@ public class Purse {
         cash.put(Denomination.NewInstance(MoneyType.OneHundredDollar), 0);
     }
 
+    /**
+     * Test driver for Denomination class
+     */
     public static void main(String[] args) {
         var purse = new Purse();
 
