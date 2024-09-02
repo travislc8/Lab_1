@@ -119,7 +119,7 @@ public class Purse {
         if (this.getValue() <= 0)
             return "Empty Purse";
 
-        result += "Value in the purse:\n";
+        result += "Denominations in the purse: \n";
         int denominationCount = cash.get(Denomination.NewInstance(MoneyType.OneHundredDollar));
         if (denominationCount > 1)
             result += denominationCount + " One Hundred Dollar Bills\n";
@@ -186,7 +186,7 @@ public class Purse {
     /**
      * Gets the number of a denomination in the purse
      *
-     * @param MoneyType to get the number of
+     * @param type to get the number of
      */
     public int getDenominationCount(MoneyType type) {
         return cash.get(Denomination.NewInstance(type));
