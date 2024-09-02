@@ -13,21 +13,14 @@ public class PursePanel extends JPanel {
     private JLabel imageLabel = new JLabel("");
 
     public PursePanel() {
-        this.setPreferredSize(new Dimension(900, 600));
-        this.setBackground(Color.blue);
+        this.setPreferredSize(new Dimension(200, 600));
+        this.setBackground(Color.white);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setAlignmentY(Component.TOP_ALIGNMENT);
 
         textLabel.setFont(new Font("calbri", Font.PLAIN, 12));
         this.add(textLabel);
         this.add(imageLabel);
-
-    }
-
-    public PursePanel(Purse purse) {
-        this.purse = purse;
-
-        this.setPreferredSize(new Dimension(300, 300));
-        this.setBackground(Color.blue);
 
     }
 
@@ -36,11 +29,15 @@ public class PursePanel extends JPanel {
     }
 
     public void paintComponent() {
-        this.setBackground(Color.red);
+        this.removeAll();
+        this.repaint();
+        this.setBackground(Color.white);
         double amount = purse.getValue();
 
         if (amount <= 0) {
-            newLabel("Empty Purse");
+            var label = new JLabel("Empty Purse");
+            label.setFont(new Font("calbri", Font.PLAIN, 20));
+            this.add(label);
             return;
         }
 
@@ -50,20 +47,14 @@ public class PursePanel extends JPanel {
             denominationCount = purse.getDenominationCount(type);
             if (denominationCount > 0) {
                 var rowPanel = new JPanel();
-                rowPanel.add(newLabel(Integer.toString(denominationCount)));
-                rowPanel.add(newImage(type));
-                rowPanel.setPreferredSize(new Dimension(200, 100));
+                for (int i = 0; i < denominationCount; i++) {
+                    rowPanel.add(newImage(type));
+                }
+                rowPanel.setSize(new Dimension(100, 60));
+                rowPanel.setBackground(Color.white);
                 this.add(rowPanel);
             }
         }
-    }
-
-    private JLabel newLabel(String text) {
-        var label = new JLabel(text);
-        label.setFont(new Font("calbri", Font.PLAIN, 12));
-        label.setHorizontalAlignment(SwingConstants.LEFT);
-
-        return label;
     }
 
     private JLabel newImage(MoneyType type) {
@@ -88,13 +79,21 @@ public class PursePanel extends JPanel {
         } catch (IOException ex) {
             return null;
         }
-        var icon = new ImageIcon(img.getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+
+        var icon = resizeImage(50, img);
         var label = new JLabel(icon);
         // var label = new JLabel(address);
 
-        label.setPreferredSize(new Dimension(100, 100));
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         return label;
+    }
+
+    private ImageIcon resizeImage(int height, BufferedImage img) {
+
+        var ration = img.getWidth() / img.getHeight();
+        var newImg = new ImageIcon(img.getScaledInstance((height * ration), 50, Image.SCALE_SMOOTH));
+
+        return newImg;
     }
 
 }

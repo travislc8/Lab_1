@@ -15,12 +15,16 @@ public class RegisterPanel extends JPanel {
     public RegisterPanel() {
         this.setPreferredSize(new Dimension(1000, 900));
         this.setBackground(Color.white);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         inputText.setEditable(true);
         inputText.setPreferredSize(new Dimension(200, 50));
         inputText.setFont(new Font("calbri", Font.PLAIN, 16));
         inputText.addActionListener(new InputListener());
+
         inputPanel.add(inputText);
+        inputPanel.setSize(new Dimension(800, 150));
+        inputPanel.setBackground(Color.white);
 
         messageLabel.setFont(new Font("calbri", Font.PLAIN, 12));
         inputPanel.add(messageLabel);
@@ -47,7 +51,10 @@ public class RegisterPanel extends JPanel {
     private void calculateValue() {
         pursePanel.removeAll();
         var purse = register.makeChange(inputAmount);
-        messageLabel.setText("Value in Purse = $" + purse.getValue());
+        if (purse.getValue() < 0)
+            messageLabel.setText("Value in Purse = $0");
+        else
+            messageLabel.setText("Value in Purse = $" + purse.getValue());
         pursePanel.setPurse(purse);
         pursePanel.paintComponent();
 
