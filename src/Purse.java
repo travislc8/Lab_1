@@ -7,7 +7,7 @@ import java.util.TreeMap;
 public class Purse {
     public Purse() {
         cash = new TreeMap<>();
-        this.fillCashMap();
+        fillCashMap();
 
     }
 
@@ -62,7 +62,7 @@ public class Purse {
         double value = num * denomination.amount(); // value removed
         boolean check = cash.remove(denomination, num); // removes from map
 
-        // returns value removed if removal was successfull
+        // returns value removed if removal was successful
         if (check)
             return value;
         else
@@ -77,6 +77,8 @@ public class Purse {
      */
     public double remove(MoneyType type, int num) {
         var denomination = Denomination.NewInstance(type);
+        if (denomination == null)
+            return 0;
         int count = cash.get(denomination);
 
         // if the remove request is greater than the amount in purse, set to
@@ -87,7 +89,7 @@ public class Purse {
         double value = num * denomination.amount(); // value removed
         boolean check = cash.remove(denomination, num); // removes from map
 
-        // returns value removed if removal was successfull
+        // returns value removed if removal was successful
         if (check)
             return value;
         else
@@ -129,6 +131,12 @@ public class Purse {
             result += denominationCount + " Fifty Dollar Bills\n";
         else if (denominationCount == 1)
             result += denominationCount + " Fifty Dollar Bill\n";
+
+        denominationCount = cash.get(Denomination.NewInstance(MoneyType.TwentyDollar));
+        if (denominationCount > 1)
+            result += denominationCount + " Twenty Dollar Bills\n";
+        else if (denominationCount == 1)
+            result += denominationCount + " Twenty Dollar Bill\n";
 
         denominationCount = cash.get(Denomination.NewInstance(MoneyType.TenDollar));
         if (denominationCount > 1)
@@ -176,6 +184,15 @@ public class Purse {
     }
 
     /**
+     * Gets the number of a denomination in the purse
+     *
+     * @param MoneyType to get the number of
+     */
+    public int getDenominationCount(MoneyType type) {
+        return cash.get(Denomination.NewInstance(type));
+    }
+
+    /**
      * Fills the cash map with denominations with values of 0
      */
     private void fillCashMap() {
@@ -186,6 +203,7 @@ public class Purse {
         cash.put(Denomination.NewInstance(MoneyType.OneDollar), 0);
         cash.put(Denomination.NewInstance(MoneyType.FiveDollar), 0);
         cash.put(Denomination.NewInstance(MoneyType.TenDollar), 0);
+        cash.put(Denomination.NewInstance(MoneyType.TwentyDollar), 0);
         cash.put(Denomination.NewInstance(MoneyType.FiftyDollar), 0);
         cash.put(Denomination.NewInstance(MoneyType.OneHundredDollar), 0);
     }
@@ -203,6 +221,7 @@ public class Purse {
         purse.add(MoneyType.OneDollar, 1);
         purse.add(MoneyType.FiveDollar, 1);
         purse.add(MoneyType.TenDollar, 1);
+        purse.add(MoneyType.TwentyDollar, 1);
         purse.add(MoneyType.FiftyDollar, 1);
         purse.add(MoneyType.OneHundredDollar, 1);
 

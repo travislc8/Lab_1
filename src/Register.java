@@ -11,14 +11,20 @@ public class Register {
      */
     public Purse makeChange(double amount) {
         var purse = new Purse();
+        if (amount == 0)
+            return purse;
 
         int oneHundredDollar = (int) (amount / 100);
         amount -= (oneHundredDollar * 100);
         purse.add(Denomination.NewInstance(MoneyType.OneHundredDollar), oneHundredDollar);
 
-        int fiftyDollor = (int) (amount / 50);
-        amount -= (fiftyDollor * 50);
-        purse.add(Denomination.NewInstance(MoneyType.FiftyDollar), fiftyDollor);
+        int fiftyDollar = (int) (amount / 50);
+        amount -= (fiftyDollar * 50);
+        purse.add(Denomination.NewInstance(MoneyType.FiftyDollar), fiftyDollar);
+
+        int twentyDollar = (int) (amount / 20);
+        amount -= (twentyDollar * 20);
+        purse.add(Denomination.NewInstance(MoneyType.TwentyDollar), twentyDollar);
 
         int tenDollar = (int) (amount / 10);
         amount -= (tenDollar * 10);

@@ -19,49 +19,55 @@ public record Denomination(MoneyType name,
      * @return new Denomination instance of specified MoneyType
      */
     public static Denomination NewInstance(MoneyType name) {
+        Denomination temp_denomination;
         switch (name) {
             case MoneyType.Penny: {
-                var temp_denomination = new Denomination(MoneyType.Penny, .01, Denomination.Form.Coin,
+                temp_denomination = new Denomination(MoneyType.Penny, .01, Denomination.Form.Coin,
                         ("penny.png"));
                 return temp_denomination;
             }
             case MoneyType.Nickel: {
-                var temp_denomination = new Denomination(MoneyType.Nickel, .05, Denomination.Form.Coin,
+                temp_denomination = new Denomination(MoneyType.Nickel, .05, Denomination.Form.Coin,
                         ("nickel.png"));
                 return temp_denomination;
             }
             case MoneyType.Dime: {
-                var temp_denomination = new Denomination(MoneyType.Dime, .10, Denomination.Form.Coin,
+                temp_denomination = new Denomination(MoneyType.Dime, .10, Denomination.Form.Coin,
                         ("dime.png"));
                 return temp_denomination;
             }
             case MoneyType.Quarter: {
-                var temp_denomination = new Denomination(MoneyType.Quarter, .25, Denomination.Form.Coin,
+                temp_denomination = new Denomination(MoneyType.Quarter, .25, Denomination.Form.Coin,
                         ("quarter.png"));
                 return temp_denomination;
             }
             case MoneyType.OneDollar: {
-                var temp_denomination = new Denomination(MoneyType.OneDollar, 1.0, Denomination.Form.Bill,
+                temp_denomination = new Denomination(MoneyType.OneDollar, 1.0, Denomination.Form.Bill,
                         ("1_dollar.png"));
                 return temp_denomination;
             }
             case MoneyType.FiveDollar: {
-                var temp_denomination = new Denomination(MoneyType.FiveDollar, 5.0, Denomination.Form.Bill,
+                temp_denomination = new Denomination(MoneyType.FiveDollar, 5.0, Denomination.Form.Bill,
                         ("5_dollar.png"));
                 return temp_denomination;
             }
             case MoneyType.TenDollar: {
-                var temp_denomination = new Denomination(MoneyType.TenDollar, 10.0, Denomination.Form.Bill,
+                temp_denomination = new Denomination(MoneyType.TenDollar, 10.0, Denomination.Form.Bill,
                         ("10_dollar.png"));
                 return temp_denomination;
             }
+            case MoneyType.TwentyDollar: {
+                temp_denomination = new Denomination(MoneyType.TwentyDollar, 20.0, Denomination.Form.Bill,
+                        ("20_dollar.png"));
+                return temp_denomination;
+            }
             case MoneyType.FiftyDollar: {
-                var temp_denomination = new Denomination(MoneyType.FiftyDollar, 50.0, Denomination.Form.Bill,
+                temp_denomination = new Denomination(MoneyType.FiftyDollar, 50.0, Denomination.Form.Bill,
                         ("50_dollar.png"));
                 return temp_denomination;
             }
             case MoneyType.OneHundredDollar: {
-                var temp_denomination = new Denomination(MoneyType.OneHundredDollar, 100.0, Denomination.Form.Bill,
+                temp_denomination = new Denomination(MoneyType.OneHundredDollar, 100.0, Denomination.Form.Bill,
                         ("100_dollar.png"));
                 return temp_denomination;
             }
@@ -71,7 +77,7 @@ public record Denomination(MoneyType name,
     }
 
     /**
-     * Implematation for compare for Comparable interface
+     * Implementation for compare for Comparable interface
      *
      * @param other Denomination to compare to
      */
