@@ -10,7 +10,7 @@ public class Register {
      * @return Purse structure containing the correct number of bills
      */
     public Purse makeChange(double amount) {
-        var purse = new Purse();
+        Purse purse = new Purse();
         if (amount == 0)
             return purse;
 
@@ -61,7 +61,7 @@ public class Register {
      * Test driver for Register class
      */
     public static void main(String[] args) {
-        var in = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         double amount = -1.0;
         System.out.println("Enter a dollar amount");
         try {
@@ -72,8 +72,8 @@ public class Register {
             System.out.println("Error: Could not read the input. Input must be a number.");
         }
 
-        var register = new Register();
-        var result = register.makeChange(amount);
+        Register register = new Register();
+        Purse result = register.makeChange(amount);
 
         System.out.println();
         System.out.println(result.toString());

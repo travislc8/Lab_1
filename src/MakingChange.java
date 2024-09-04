@@ -14,7 +14,7 @@ public class MakingChange {
         frame.setPreferredSize(new Dimension(1000, 900));
 
         // adds a regiter panel for the functionality
-        var register = new RegisterPanel();
+        RegisterPanel register = new RegisterPanel();
         register.setPreferredSize(new Dimension(600, 600));
 
         // displays the frame

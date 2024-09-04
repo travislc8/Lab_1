@@ -36,7 +36,7 @@ public class Purse {
      */
     public void add(MoneyType type, int num) {
         // gets the amount in the purse of the denomination
-        var denomination = Denomination.NewInstance(type);
+        Denomination denomination = Denomination.NewInstance(type);
         int count = cash.get(denomination);
 
         // adds the requested amount to the purse
@@ -76,7 +76,7 @@ public class Purse {
      * @param num  The number of the Denomination to remove from the purse
      */
     public double remove(MoneyType type, int num) {
-        var denomination = Denomination.NewInstance(type);
+        Denomination denomination = Denomination.NewInstance(type);
         if (denomination == null)
             return 0;
         int count = cash.get(denomination);
@@ -212,7 +212,7 @@ public class Purse {
      * Test driver for Denomination class
      */
     public static void main(String[] args) {
-        var purse = new Purse();
+        Purse purse = new Purse();
 
         purse.add(MoneyType.Penny, 1);
         purse.add(MoneyType.Nickel, 1);

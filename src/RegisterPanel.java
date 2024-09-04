@@ -15,6 +15,7 @@ public class RegisterPanel extends JPanel {
     private Double inputAmount = 0.0;
     private JPanel inputPanel = new JPanel();
     private PursePanel pursePanel = new PursePanel();
+    private JLabel promptPanel = new JLabel("Enter Value:");
 
     /**
      * Constructor for Register Panel class
@@ -22,8 +23,12 @@ public class RegisterPanel extends JPanel {
     public RegisterPanel() {
         // formats the jpanel
         this.setPreferredSize(new Dimension(1000, 900));
+        this.setLayout(new GridLayout(1, 0));
         this.setBackground(Color.white);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        // formats the prompt text
+        promptPanel.setPreferredSize(new Dimension(200, 50));
+        promptPanel.setFont(new Font("calibri", Font.PLAIN, 16));
 
         // formats the JTextField for the user input
         inputText.setEditable(true);
@@ -31,13 +36,14 @@ public class RegisterPanel extends JPanel {
         inputText.setFont(new Font("calibri", Font.PLAIN, 16));
         inputText.addActionListener(new InputListener());
 
-        // formats the input JPanel
-        inputPanel.add(inputText);
-        inputPanel.setSize(new Dimension(800, 150));
-        inputPanel.setBackground(Color.white);
-
         // formats tha message label for feedback to the user
         messageLabel.setFont(new Font("calibri", Font.PLAIN, 12));
+
+        // formats the input JPanel
+        inputPanel.setPreferredSize(new Dimension(800, 150));
+        inputPanel.setBackground(Color.white);
+        inputPanel.add(promptPanel);
+        inputPanel.add(inputText);
         inputPanel.add(messageLabel);
 
         // adds the panels to the Register Panel
@@ -58,6 +64,7 @@ public class RegisterPanel extends JPanel {
             try {
                 inputAmount = Double.parseDouble(input);
                 calculateValue();
+                pursePanel.repaint();
             } catch (Exception exception) {
                 // displays the error message if user inputs a non-number
                 inputText.setText("");
@@ -72,13 +79,15 @@ public class RegisterPanel extends JPanel {
      */
     private void calculateValue() {
         pursePanel.removeAll();
-        var purse = register.makeChange(inputAmount);
+        Purse purse = register.makeChange(inputAmount);
         if (purse.getValue() < 0)
             messageLabel.setText("Value in Purse = $0");
         else
             messageLabel.setText("Value in Purse = $" + purse.getValue());
         pursePanel.setPurse(purse);
-        pursePanel.paintComponent();
+        pursePanel.revalidate();
+        pursePanel.repaint();
+        this.repaint();
 
     }
 

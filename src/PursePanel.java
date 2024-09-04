@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class to display a set of cash images based on a given dollar figure
@@ -19,11 +20,19 @@ public class PursePanel extends JPanel {
      */
     public PursePanel() {
         // formats the JPanel
-        this.setPreferredSize(new Dimension(200, 600));
+        this.setPreferredSize(new Dimension(500, 700));
         this.setBackground(Color.white);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setAlignmentY(Component.TOP_ALIGNMENT);
+        this.setLayout(new GridLayout(0, 1));
+        this.setVisible(true);
 
+        JLabel label = new JLabel("Empty Purse");
+        label.setPreferredSize(new Dimension(100, 100));
+        this.add(label);
+    }
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        paintComponent();
     }
 
     /**
@@ -40,16 +49,28 @@ public class PursePanel extends JPanel {
      */
     public void paintComponent() {
         // clears the JPanel from the previous iterations
-        this.removeAll();
-        this.repaint();
 
+        this.removeAll();
         double amount = purse.getValue();
 
         // if purse is empty, displays empty message
         if (amount <= 0) {
-            var label = new JLabel("Empty Purse");
-            label.setFont(new Font("calibri", Font.PLAIN, 20));
-            this.add(label);
+            // creates jpanel holder for the empty purse label
+            JPanel holder = new JPanel();
+            holder.setPreferredSize(new Dimension(100, this.getWidth()));
+            holder.setBackground(Color.white);
+
+            // creates the empty purse jlabel
+            JLabel label = new JLabel("Empty Purse");
+            label.setFont(new Font("calibri", 0, 16));
+            label.setPreferredSize(new Dimension(100, this.getWidth()));
+            label.setBackground(Color.red);
+
+            // adds the emements
+            holder.add(label);
+            this.add(holder);
+            holder.revalidate();
+            this.revalidate();
             return;
         }
 
@@ -57,20 +78,22 @@ public class PursePanel extends JPanel {
 
         // iterates through the different denominations and displays the image
         // for the bill based on the number in the purse
-        for (var type : MoneyType.values()) {
+        for (MoneyType type : MoneyType.values()) {
             denominationCount = purse.getDenominationCount(type);
             if (denominationCount > 0) {
-                var rowPanel = new JPanel();
+                JPanel rowPanel = new JPanel();
+                rowPanel.setBackground(Color.white);
+                rowPanel.setPreferredSize(new Dimension(100, this.getWidth()));
                 for (int i = 0; i < denominationCount; i++) {
                     rowPanel.add(newImage(type));
                 }
 
                 // formats the panel and adds to the purse panel
-                rowPanel.setSize(new Dimension(100, 60));
-                rowPanel.setBackground(Color.white);
+                rowPanel.revalidate();
                 this.add(rowPanel);
             }
         }
+        this.revalidate();
     }
 
     /**
@@ -101,11 +124,10 @@ public class PursePanel extends JPanel {
         } catch (IOException ex) {
             return null;
         }
-        var icon = resizeImage(50, img);
+        ImageIcon icon = resizeImage(50, img);
 
         // adds the image to a new JLabel and adds to the Purse Panel
-        var label = new JLabel(icon);
-        label.setHorizontalAlignment(SwingConstants.RIGHT);
+        JLabel label = new JLabel(icon);
         return label;
     }
 
@@ -120,8 +142,8 @@ public class PursePanel extends JPanel {
      */
     private ImageIcon resizeImage(int height, BufferedImage img) {
 
-        var ration = img.getWidth() / img.getHeight();
-        var newImg = new ImageIcon(img.getScaledInstance((height * ration), 50, Image.SCALE_SMOOTH));
+        double ration = img.getWidth() / img.getHeight();
+        ImageIcon newImg = new ImageIcon(img.getScaledInstance((int) (height * ration), 50, Image.SCALE_SMOOTH));
 
         return newImg;
     }
